@@ -80,6 +80,11 @@ RPM.Manager.Plugins.registerCommand(pluginName, "Open load menu", () =>
 	RPM.Manager.Stack.push(new RPM.Scene.LoadGame());
 });
 
+RPM.Manager.Plugins.registerCommand(pluginName, "Open settings menu", () =>
+{
+	RPM.Manager.Stack.push(new RPM.Scene.TitleSettings((new RPM.System.TitleCommand()).name()));
+});
+
 RPM.Manager.Plugins.registerCommand(pluginName, "Quit game", () =>
 {
 	RPM.System.TitleCommand.exit();
