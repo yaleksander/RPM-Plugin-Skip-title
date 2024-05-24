@@ -5,9 +5,14 @@ const pluginName = "Skip title";
 const infoVar = RPM.Manager.Plugins.getParameter(pluginName, "Text info variable ID");
 
 var currentGame = null;
+var settingsName = "Enable Settings on Systems tab!";
 
 RPM.Scene.TitleScreen.prototype.load = async function ()
 {
+	const l = RPM.Datas.TitlescreenGameover.titleCommands;
+	for (var i = 0; i < l.length; i++)
+		if (l[i].kind === RPM.Common.Enum.TitleCommandKind.Settings)
+			settingsName = l[i].name();
 	RPM.Core.Game.current = null;
 	RPM.Manager.Videos.stop();
 	RPM.Manager.Songs.stopAll();
@@ -82,7 +87,7 @@ RPM.Manager.Plugins.registerCommand(pluginName, "Open load menu", () =>
 
 RPM.Manager.Plugins.registerCommand(pluginName, "Open settings menu", () =>
 {
-	RPM.Manager.Stack.push(new RPM.Scene.TitleSettings((new RPM.System.TitleCommand()).name()));
+	RPM.Manager.Stack.push(new RPM.Scene.TitleSettings(settingsName));
 });
 
 RPM.Manager.Plugins.registerCommand(pluginName, "Quit game", () =>
