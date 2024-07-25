@@ -18,7 +18,7 @@ RPM.Scene.TitleScreen.prototype.load = async function ()
 	RPM.Manager.Songs.stopAll();
 	RPM.Manager.GL.screenTone.set(0, 0, 0, 1);
 	RPM.Manager.Stack.displayedPictures = [];
-	this.pictureBackground = await RPM.Core.Picture2D.createWithID(RPM.Datas.TitlescreenGameover.titleBackgroundImageID, RPM.Common.Enum.PictureKind.TitleScreen, { cover: true });
+	this.pictureBackground = await RPM.Core.Picture2D.loadImage();
 	RPM.System.TitleCommand.startNewGame();
 };
 
