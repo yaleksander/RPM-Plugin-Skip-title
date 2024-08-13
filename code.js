@@ -55,6 +55,25 @@ RPM.Manager.Plugins.registerCommand(pluginName, "Load slot", async (slot) =>
 		RPM.Datas.Systems.soundImpossible.playSound();
 });
 
+RPM.Manager.Plugins.registerCommand(pluginName, "Delete slot", async (slot) =>
+{
+	const fs = require("fs").promises;
+	try
+	{
+		await fs.unlink(RPM.Common.Paths.SAVES + "/" + slot + ".json");
+	}
+	catch (e)
+	{
+		console.error(e);
+	}
+});
+
+RPM.Manager.Plugins.registerCommand(pluginName, "Slot exists?", async (slot, variable) =>
+{
+	RPM.Core.Game.current.variables[variable] = -1;
+	RPM.Core.Game.current.variables[variable] = await RPM.Common.IO.fileExists(RPM.Common.Paths.SAVES + "/" + slot + ".json");
+});
+
 RPM.Manager.Plugins.registerCommand(pluginName, "Get slot info", async (slot, info, time) =>
 {
 	const p = RPM.Core.ReactionInterpreter.currentObject;
