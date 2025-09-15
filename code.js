@@ -2,8 +2,6 @@ import { RPM } from "../path.js";
 
 const pluginName = "Skip title";
 
-const infoVar = RPM.Manager.Plugins.getParameter(pluginName, "Text info variable ID");
-
 var currentGame = null;
 var settingsName = "Enable Settings on Systems tab!";
 
@@ -79,7 +77,7 @@ function addSaveLoadWaitCommand(alt = false)
 	else
 	{
 		if (!alt)
-			c.next.asyncSaveLoadFinished = false;
+			c.next.data.asyncSaveLoadFinished = false;
 		else
 		{
 			c.beginCheck = false;
@@ -138,13 +136,11 @@ RPM.Manager.Plugins.registerCommand(pluginName, "Slot exists?", async (slot, var
 	waitCommand.data.asyncSaveLoadFinished = true;
 });
 
-RPM.Manager.Plugins.registerCommand(pluginName, "Get slot variable", async (slot, variable, result, loading, error) =>
+RPM.Manager.Plugins.registerCommand(pluginName, "Get slot variable", async (slot, variable, result) =>
 {
 	const waitCommand = addSaveLoadWaitCommand();
 	const v = RPM.Core.Game.current.variables;
 	const game = new RPM.Core.Game(slot);
-	v[loading] = true;
-	v[error] = false;
 	try
 	{
 		await game.load();
@@ -152,10 +148,8 @@ RPM.Manager.Plugins.registerCommand(pluginName, "Get slot variable", async (slot
 	}
 	catch (e)
 	{
-		v[error] = true;
-		console.error(e);
+		v[result] = e;
 	}
-	v[loading] = false;
 	waitCommand.data.asyncSaveLoadFinished = true;
 });
 
